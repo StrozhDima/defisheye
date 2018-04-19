@@ -28,6 +28,8 @@ public class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonTypeGroup = new javax.swing.ButtonGroup();
+        panelImages = new javax.swing.JPanel();
+        imageLabel = new javax.swing.JLabel();
         panelTool = new javax.swing.JPanel();
         labelTransform = new javax.swing.JLabel();
         labelProcessing = new javax.swing.JLabel();
@@ -40,7 +42,6 @@ public class GUI extends javax.swing.JFrame {
         radioButtonCircular = new javax.swing.JRadioButton();
         labelCorrectionImage = new javax.swing.JLabel();
         sliderRotate = new javax.swing.JSlider();
-        panelImages = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuItemOpen = new javax.swing.JMenuItem();
@@ -60,6 +61,33 @@ public class GUI extends javax.swing.JFrame {
         setBackground(new java.awt.Color(0, 102, 153));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1024, 768));
+
+        panelImages.setBackground(new java.awt.Color(0, 0, 51));
+        panelImages.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/icons-images-500.png"))); // NOI18N
+        imageLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        imageLabel.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                imageLabelAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+
+        javax.swing.GroupLayout panelImagesLayout = new javax.swing.GroupLayout(panelImages);
+        panelImages.setLayout(panelImagesLayout);
+        panelImagesLayout.setHorizontalGroup(
+            panelImagesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 928, Short.MAX_VALUE)
+        );
+        panelImagesLayout.setVerticalGroup(
+            panelImagesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         panelTool.setBackground(new java.awt.Color(0, 204, 204));
         panelTool.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -199,20 +227,6 @@ public class GUI extends javax.swing.JFrame {
                     .addContainerGap(553, Short.MAX_VALUE)))
         );
 
-        panelImages.setBackground(new java.awt.Color(0, 0, 51));
-        panelImages.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        javax.swing.GroupLayout panelImagesLayout = new javax.swing.GroupLayout(panelImages);
-        panelImages.setLayout(panelImagesLayout);
-        panelImagesLayout.setHorizontalGroup(
-            panelImagesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 928, Short.MAX_VALUE)
-        );
-        panelImagesLayout.setVerticalGroup(
-            panelImagesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         jMenuBar1.setBackground(new java.awt.Color(0, 153, 255));
         jMenuBar1.setToolTipText("");
 
@@ -297,7 +311,7 @@ public class GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelTool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelImages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -324,6 +338,10 @@ public class GUI extends javax.swing.JFrame {
     private void checkBoxAntialiasedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxAntialiasedActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxAntialiasedActionPerformed
+
+    private void imageLabelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_imageLabelAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_imageLabelAncestorAdded
 
     /**
      * @param args the command line arguments
@@ -364,6 +382,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonTypeGroup;
     private javax.swing.JCheckBox checkBoxAntialiased;
     private javax.swing.JCheckBox checkBoxPreview;
+    private javax.swing.JLabel imageLabel;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel labelCorrectionImage;
     private javax.swing.JLabel labelProcessing;
