@@ -42,7 +42,8 @@ public class GUI extends javax.swing.JFrame {
         radioButtonCircular = new javax.swing.JRadioButton();
         labelCorrectionImage = new javax.swing.JLabel();
         sliderRotate = new javax.swing.JSlider();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        buttonAutoCorrection = new javax.swing.JButton();
+        menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuItemOpen = new javax.swing.JMenuItem();
         menuItemClose = new javax.swing.JMenuItem();
@@ -58,13 +59,21 @@ public class GUI extends javax.swing.JFrame {
         menuItemAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Defisheye [developed by Strozh D.]");
         setBackground(new java.awt.Color(0, 102, 153));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        setForeground(java.awt.Color.black);
+        setIconImages(null);
         setMinimumSize(new java.awt.Dimension(1024, 768));
+        setName("mainFrame"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         panelImages.setBackground(new java.awt.Color(0, 0, 51));
         panelImages.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        imageLabel.setBackground(new java.awt.Color(0, 51, 102));
+        imageLabel.setForeground(new java.awt.Color(255, 255, 255));
         imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/icons-images-500.png"))); // NOI18N
         imageLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -172,6 +181,10 @@ public class GUI extends javax.swing.JFrame {
         sliderRotate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         sliderRotate.setVerifyInputWhenFocusTarget(false);
 
+        buttonAutoCorrection.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        buttonAutoCorrection.setForeground(new java.awt.Color(255, 255, 255));
+        buttonAutoCorrection.setText("Auto");
+
         javax.swing.GroupLayout panelToolLayout = new javax.swing.GroupLayout(panelTool);
         panelTool.setLayout(panelToolLayout);
         panelToolLayout.setHorizontalGroup(
@@ -179,6 +192,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(panelToolLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonAutoCorrection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelTransform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelProcessing, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
                     .addComponent(sliderCorrection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -219,7 +233,9 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(labelCorrectionImage)
                 .addGap(18, 18, 18)
                 .addComponent(sliderCorrection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(buttonAutoCorrection, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(108, Short.MAX_VALUE))
             .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolLayout.createSequentialGroup()
                     .addGap(126, 126, 126)
@@ -227,33 +243,61 @@ public class GUI extends javax.swing.JFrame {
                     .addContainerGap(553, Short.MAX_VALUE)))
         );
 
-        jMenuBar1.setBackground(new java.awt.Color(0, 153, 255));
-        jMenuBar1.setToolTipText("");
+        menuBar.setBackground(new java.awt.Color(0, 204, 204));
+        menuBar.setForeground(new java.awt.Color(255, 255, 255));
+        menuBar.setToolTipText("");
+        menuBar.setAutoscrolls(true);
+        menuBar.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuBar.setOpaque(false);
 
+        menuFile.setBackground(new java.awt.Color(0, 204, 204));
+        menuFile.setForeground(new java.awt.Color(255, 255, 255));
         menuFile.setText("File");
+        menuFile.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuFile.setOpaque(true);
 
         menuItemOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemOpen.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemOpen.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemOpen.setForeground(new java.awt.Color(255, 255, 255));
         menuItemOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Open_24x24.png"))); // NOI18N
         menuItemOpen.setText("Open...");
+        menuItemOpen.setOpaque(true);
         menuFile.add(menuItemOpen);
 
         menuItemClose.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
+        menuItemClose.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemClose.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemClose.setForeground(new java.awt.Color(255, 255, 255));
         menuItemClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Close_24x24.png"))); // NOI18N
         menuItemClose.setText("Close");
+        menuItemClose.setOpaque(true);
         menuFile.add(menuItemClose);
 
         menuItemSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemSave.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemSave.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemSave.setForeground(new java.awt.Color(255, 255, 255));
         menuItemSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Save_24x24.png"))); // NOI18N
         menuItemSave.setText("Save");
+        menuItemSave.setOpaque(true);
         menuFile.add(menuItemSave);
 
         menuItemSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        menuItemSaveAs.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemSaveAs.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemSaveAs.setForeground(new java.awt.Color(255, 255, 255));
         menuItemSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Save_24x24.png"))); // NOI18N
         menuItemSaveAs.setText("Save as...");
+        menuItemSaveAs.setOpaque(true);
         menuFile.add(menuItemSaveAs);
 
+        menuItemExit.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemExit.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemExit.setForeground(new java.awt.Color(255, 255, 255));
         menuItemExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Exit_24x24.png"))); // NOI18N
         menuItemExit.setText("Exit");
+        menuItemExit.setOpaque(true);
         menuItemExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemExitActionPerformed(evt);
@@ -261,13 +305,21 @@ public class GUI extends javax.swing.JFrame {
         });
         menuFile.add(menuItemExit);
 
-        jMenuBar1.add(menuFile);
+        menuBar.add(menuFile);
 
+        menuEdit.setBackground(new java.awt.Color(0, 204, 204));
+        menuEdit.setForeground(new java.awt.Color(255, 255, 255));
         menuEdit.setText("Edit");
+        menuEdit.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuEdit.setOpaque(true);
 
         menuItemUndo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemUndo.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemUndo.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemUndo.setForeground(new java.awt.Color(255, 255, 255));
         menuItemUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Undo_24x24.png"))); // NOI18N
         menuItemUndo.setText("Undo");
+        menuItemUndo.setOpaque(true);
         menuItemUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemUndoActionPerformed(evt);
@@ -276,12 +328,20 @@ public class GUI extends javax.swing.JFrame {
         menuEdit.add(menuItemUndo);
 
         menuItemRedo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        menuItemRedo.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemRedo.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemRedo.setForeground(new java.awt.Color(255, 255, 255));
         menuItemRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Redo_24x24.png"))); // NOI18N
         menuItemRedo.setText("Redo");
+        menuItemRedo.setOpaque(true);
         menuEdit.add(menuItemRedo);
 
         menuItemReset.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemReset.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemReset.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemReset.setForeground(new java.awt.Color(255, 255, 255));
         menuItemReset.setText("Reset");
+        menuItemReset.setOpaque(true);
         menuItemReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemResetActionPerformed(evt);
@@ -289,21 +349,33 @@ public class GUI extends javax.swing.JFrame {
         });
         menuEdit.add(menuItemReset);
 
-        jMenuBar1.add(menuEdit);
+        menuBar.add(menuEdit);
 
+        menuHelp.setBackground(new java.awt.Color(0, 204, 204));
+        menuHelp.setForeground(new java.awt.Color(255, 255, 255));
         menuHelp.setText("Help");
+        menuHelp.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuHelp.setOpaque(true);
 
+        menuItemHelp.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemHelp.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemHelp.setForeground(new java.awt.Color(255, 255, 255));
         menuItemHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Help_24x24.png"))); // NOI18N
         menuItemHelp.setText("Help");
+        menuItemHelp.setOpaque(true);
         menuHelp.add(menuItemHelp);
 
+        menuItemAbout.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemAbout.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemAbout.setForeground(new java.awt.Color(255, 255, 255));
         menuItemAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/About_24x24.png"))); // NOI18N
         menuItemAbout.setText("About...");
+        menuItemAbout.setOpaque(true);
         menuHelp.add(menuItemAbout);
 
-        jMenuBar1.add(menuHelp);
+        menuBar.add(menuHelp);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -312,7 +384,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelTool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelImages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panelImages, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,16 +451,17 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonAutoCorrection;
     private javax.swing.ButtonGroup buttonTypeGroup;
     private javax.swing.JCheckBox checkBoxAntialiased;
     private javax.swing.JCheckBox checkBoxPreview;
     private javax.swing.JLabel imageLabel;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JLabel labelCorrectionImage;
     private javax.swing.JLabel labelProcessing;
     private javax.swing.JLabel labelRotate;
     private javax.swing.JLabel labelTransform;
     private javax.swing.JLabel labelTypeImage;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenu menuHelp;
