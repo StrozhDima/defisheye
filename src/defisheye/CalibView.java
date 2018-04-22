@@ -5,7 +5,9 @@
  */
 package defisheye;
 
-import java.awt.image.BufferedImage;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -49,6 +51,8 @@ public class CalibView extends javax.swing.JDialog {
         labelCalibPlanarCenterDistance = new javax.swing.JLabel();
         spinnerCalibCenterDistance = new javax.swing.JSpinner();
         buttonCalibRun = new javax.swing.JButton();
+        labelCalibPlanarCircleDiameter = new javax.swing.JLabel();
+        spinnerCalibCircleDiametr = new javax.swing.JSpinner();
         panelPlanarImageCalib = new javax.swing.JPanel();
         labelPlanarImage = new javax.swing.JLabel();
         menuBarCalib = new javax.swing.JMenuBar();
@@ -137,6 +141,7 @@ public class CalibView extends javax.swing.JDialog {
         spinnerCalibSpaceWidth.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         spinnerCalibSpaceWidth.setModel(new javax.swing.SpinnerNumberModel());
         spinnerCalibSpaceWidth.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        spinnerCalibSpaceWidth.setEnabled(false);
 
         labelCalibPlanarCenterDistance.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         labelCalibPlanarCenterDistance.setForeground(new java.awt.Color(255, 255, 255));
@@ -145,6 +150,7 @@ public class CalibView extends javax.swing.JDialog {
         spinnerCalibCenterDistance.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         spinnerCalibCenterDistance.setModel(new javax.swing.SpinnerNumberModel());
         spinnerCalibCenterDistance.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        spinnerCalibCenterDistance.setEnabled(false);
 
         buttonCalibRun.setBackground(new java.awt.Color(0, 153, 153));
         buttonCalibRun.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -155,6 +161,15 @@ public class CalibView extends javax.swing.JDialog {
                 buttonCalibRunMouseClicked(evt);
             }
         });
+
+        labelCalibPlanarCircleDiameter.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        labelCalibPlanarCircleDiameter.setForeground(new java.awt.Color(255, 255, 255));
+        labelCalibPlanarCircleDiameter.setText("Circle Diameter:");
+
+        spinnerCalibCircleDiametr.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        spinnerCalibCircleDiametr.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerCalibCircleDiametr.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        spinnerCalibCircleDiametr.setEnabled(false);
 
         javax.swing.GroupLayout panelToolsCalibLayout = new javax.swing.GroupLayout(panelToolsCalib);
         panelToolsCalib.setLayout(panelToolsCalibLayout);
@@ -171,21 +186,22 @@ public class CalibView extends javax.swing.JDialog {
                                 .addComponent(labelCalibPlanarType, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(comboBoxCalibPlanarType, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(labelCalibPlanarSquareWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelCalibPlanarCols, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelCalibPlanarRows, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelToolsCalibLayout.createSequentialGroup()
                                 .addGroup(panelToolsCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(labelCalibPlanarCircleDiameter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(labelCalibPlanarSpaceWidth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(labelCalibPlanarCenterDistance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelToolsCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(spinnerCalibCenterDistance, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelToolsCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(spinnerCalibRows, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                                        .addComponent(spinnerCalibCols)
-                                        .addComponent(spinnerCalibSquareWidth)
-                                        .addComponent(spinnerCalibSpaceWidth))))
-                            .addComponent(labelCalibPlanarSquareWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelCalibPlanarCols, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelCalibPlanarRows, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(panelToolsCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(spinnerCalibCenterDistance, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                                    .addComponent(spinnerCalibRows, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                                    .addComponent(spinnerCalibCols)
+                                    .addComponent(spinnerCalibSquareWidth)
+                                    .addComponent(spinnerCalibSpaceWidth)
+                                    .addComponent(spinnerCalibCircleDiametr))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(buttonCalibRun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -221,7 +237,11 @@ public class CalibView extends javax.swing.JDialog {
                 .addGroup(panelToolsCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(labelCalibPlanarCenterDistance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(spinnerCalibCenterDistance, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelToolsCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelCalibPlanarCircleDiameter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(spinnerCalibCircleDiametr, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addComponent(buttonCalibRun, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -269,7 +289,7 @@ public class CalibView extends javax.swing.JDialog {
         menuItemOpenCalib.setOpaque(true);
         menuFileCalib.add(menuItemOpenCalib);
 
-        menuItemCloseCalib.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
+        menuItemCloseCalib.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         menuItemCloseCalib.setBackground(new java.awt.Color(0, 204, 204));
         menuItemCloseCalib.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         menuItemCloseCalib.setForeground(new java.awt.Color(255, 255, 255));
@@ -341,7 +361,7 @@ public class CalibView extends javax.swing.JDialog {
                     System.exit(0);
                 }
             });
-            dialog.setVisible(true);
+            dialog.setVisible(true);            
         });
     }
 
@@ -350,6 +370,7 @@ public class CalibView extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> comboBoxCalibPlanarType;
     private javax.swing.JLabel labelCalibPathExamples;
     private javax.swing.JLabel labelCalibPlanarCenterDistance;
+    private javax.swing.JLabel labelCalibPlanarCircleDiameter;
     private javax.swing.JLabel labelCalibPlanarCols;
     private javax.swing.JLabel labelCalibPlanarRows;
     private javax.swing.JLabel labelCalibPlanarSpaceWidth;
@@ -364,6 +385,7 @@ public class CalibView extends javax.swing.JDialog {
     private javax.swing.JPanel panelPlanarImageCalib;
     private javax.swing.JPanel panelToolsCalib;
     private javax.swing.JSpinner spinnerCalibCenterDistance;
+    private javax.swing.JSpinner spinnerCalibCircleDiametr;
     private javax.swing.JSpinner spinnerCalibCols;
     private javax.swing.JSpinner spinnerCalibRows;
     private javax.swing.JSpinner spinnerCalibSpaceWidth;
@@ -371,4 +393,59 @@ public class CalibView extends javax.swing.JDialog {
     private javax.swing.JTextField textFieldCalibPathExamples;
     // End of variables declaration//GEN-END:variables
 
+    public javax.swing.JButton getButtonCalibRun() {
+        return buttonCalibRun;
+    }
+
+    public javax.swing.JComboBox<String> getComboBoxCalibPlanarType() {
+        return comboBoxCalibPlanarType;
+    }
+
+    public javax.swing.JLabel getLabelPlanarImage() {
+        return labelPlanarImage;
+    }
+
+    public javax.swing.JMenuItem getMenuItemCloseCalib() {
+        return menuItemCloseCalib;
+    }
+
+    public javax.swing.JMenuItem getMenuItemExitCalib() {
+        return menuItemExitCalib;
+    }
+
+    public javax.swing.JMenuItem getMenuItemOpenCalib() {
+        return menuItemOpenCalib;
+    }
+
+    public javax.swing.JSpinner getSpinnerCalibCenterDistance() {
+        return spinnerCalibCenterDistance;
+    }
+
+    public javax.swing.JSpinner getSpinnerCalibCols() {
+        return spinnerCalibCols;
+    }
+
+    public javax.swing.JSpinner getSpinnerCalibRows() {
+        return spinnerCalibRows;
+    }
+
+    public javax.swing.JSpinner getSpinnerCalibSpaceWidth() {
+        return spinnerCalibSpaceWidth;
+    }
+
+    public javax.swing.JSpinner getSpinnerCalibSquareWidth() {
+        return spinnerCalibSquareWidth;
+    }
+
+    public javax.swing.JTextField getTextFieldCalibPathExamples() {       
+        return textFieldCalibPathExamples;
+    }
+
+    public void setDefaultImageLabel() {
+        this.labelPlanarImage.setIcon(new ImageIcon(getClass().getResource(Constants.DEFAULT_PLANAR_LABEL)));
+    }
+
+	public javax.swing.JSpinner getSpinnerCalibCircleDiametr() {
+		return spinnerCalibCircleDiametr;
+	}
 }

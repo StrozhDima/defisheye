@@ -6,7 +6,6 @@
 package defisheye;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -460,8 +459,7 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_checkBoxAntialiasedActionPerformed
 
     private void buttonAutoCorrectionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonAutoCorrectionMouseClicked
-        CalibView calibUI = new CalibView(this, rootPaneCheckingEnabled);
-        calibUI.setVisible(rootPaneCheckingEnabled);
+        this.calibUI.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_buttonAutoCorrectionMouseClicked
 
     private void buttonApplyChangingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonApplyChangingMouseClicked
@@ -505,7 +503,12 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JSlider sliderCorrection;
     private javax.swing.JSlider sliderRotate;
     // End of variables declaration//GEN-END:variables
+    private CalibView calibUI  = new CalibView(this, rootPaneCheckingEnabled);
 
+    public CalibView getCalibUI() {
+        return calibUI;
+    }
+    
     public JButton getButtonAutoCorrection() {
         return buttonAutoCorrection;
     }
@@ -587,6 +590,6 @@ public class View extends javax.swing.JFrame {
     }
 
     public void setDefaultImageLabel() {
-        imageLabel.setIcon(new ImageIcon(getClass().getResource(Constants.DEFAULTLABEL)));
+        imageLabel.setIcon(new ImageIcon(getClass().getResource(Constants.DEFAULT_LABEL)));
     }
 }

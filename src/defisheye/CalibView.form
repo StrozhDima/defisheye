@@ -54,7 +54,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="menuItemCloseCalib">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="ESCAPE"/>
+                  <KeyStroke key="Ctrl+W"/>
                 </Property>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="cc" red="0" type="rgb"/>
@@ -186,25 +186,25 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="comboBoxCalibPlanarType" min="-2" pref="262" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
+                              <Component id="labelCalibPlanarSquareWidth" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
+                              <Component id="labelCalibPlanarCols" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
+                              <Component id="labelCalibPlanarRows" min="-2" pref="149" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="labelCalibPlanarCircleDiameter" max="32767" attributes="0"/>
                                       <Component id="labelCalibPlanarSpaceWidth" max="32767" attributes="0"/>
                                       <Component id="labelCalibPlanarCenterDistance" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="spinnerCalibCenterDistance" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="spinnerCalibRows" pref="50" max="32767" attributes="0"/>
-                                          <Component id="spinnerCalibCols" max="32767" attributes="0"/>
-                                          <Component id="spinnerCalibSquareWidth" max="32767" attributes="0"/>
-                                          <Component id="spinnerCalibSpaceWidth" max="32767" attributes="0"/>
-                                      </Group>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="spinnerCalibCenterDistance" alignment="0" pref="50" max="32767" attributes="0"/>
+                                      <Component id="spinnerCalibRows" pref="50" max="32767" attributes="0"/>
+                                      <Component id="spinnerCalibCols" max="32767" attributes="0"/>
+                                      <Component id="spinnerCalibSquareWidth" max="32767" attributes="0"/>
+                                      <Component id="spinnerCalibSpaceWidth" max="32767" attributes="0"/>
+                                      <Component id="spinnerCalibCircleDiametr" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="labelCalibPlanarSquareWidth" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
-                              <Component id="labelCalibPlanarCols" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
-                              <Component id="labelCalibPlanarRows" min="-2" pref="149" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -251,7 +251,12 @@
                       <Component id="labelCalibPlanarCenterDistance" alignment="0" max="32767" attributes="0"/>
                       <Component id="spinnerCalibCenterDistance" alignment="0" min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="129" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="labelCalibPlanarCircleDiameter" alignment="0" max="32767" attributes="0"/>
+                      <Component id="spinnerCalibCircleDiametr" alignment="0" min="-2" pref="34" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="83" max="32767" attributes="0"/>
                   <Component id="buttonCalibRun" min="-2" pref="48" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -443,6 +448,7 @@
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="labelCalibPlanarCenterDistance">
@@ -467,6 +473,7 @@
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="buttonCalibRun">
@@ -485,6 +492,31 @@
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="buttonCalibRunMouseClicked"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelCalibPlanarCircleDiameter">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Century Gothic" size="18" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Circle Diameter:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="spinnerCalibCircleDiametr">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Century Gothic" size="18" style="0"/>
+            </Property>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+            </Property>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
