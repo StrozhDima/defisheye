@@ -5,7 +5,17 @@
  */
 package defisheye;
 
-import javafx.scene.Parent;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -31,7 +41,7 @@ public class View extends javax.swing.JFrame {
 
         buttonTypeGroup = new javax.swing.ButtonGroup();
         panelImages = new javax.swing.JPanel();
-        imageLabel = new javax.swing.JLabel();
+        imageLabel = new JLabel();
         panelTool = new javax.swing.JPanel();
         labelTransform = new javax.swing.JLabel();
         labelProcessing = new javax.swing.JLabel();
@@ -45,6 +55,7 @@ public class View extends javax.swing.JFrame {
         labelCorrectionImage = new javax.swing.JLabel();
         sliderRotate = new javax.swing.JSlider();
         buttonAutoCorrection = new javax.swing.JButton();
+        buttonApplyChanging = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuItemOpen = new javax.swing.JMenuItem();
@@ -74,19 +85,21 @@ public class View extends javax.swing.JFrame {
 
         panelImages.setBackground(new java.awt.Color(0, 0, 51));
         panelImages.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        panelImages.setOpaque(false);
 
-        imageLabel.setBackground(new java.awt.Color(0, 51, 102));
-        imageLabel.setForeground(new java.awt.Color(255, 255, 255));
-        imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/icons-images-500.png"))); // NOI18N
-        imageLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        imageLabel.setBackground(new Color(0, 51, 102));
+        imageLabel.setForeground(new Color(255, 255, 255));
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        imageLabel.setIcon(new ImageIcon(getClass().getResource("/defisheye/icon-image-500.png")));
+        imageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+        imageLabel.setOpaque(true);
         imageLabel.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 imageLabelAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
 
@@ -194,6 +207,16 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        buttonApplyChanging.setBackground(new java.awt.Color(0, 0, 51));
+        buttonApplyChanging.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        buttonApplyChanging.setForeground(new java.awt.Color(255, 255, 255));
+        buttonApplyChanging.setText("Apply");
+        buttonApplyChanging.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonApplyChangingMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelToolLayout = new javax.swing.GroupLayout(panelTool);
         panelTool.setLayout(panelToolLayout);
         panelToolLayout.setHorizontalGroup(
@@ -211,7 +234,8 @@ public class View extends javax.swing.JFrame {
                     .addComponent(checkBoxPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(radioButtonDiagonal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(radioButtonCircular, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelCorrectionImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelCorrectionImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonApplyChanging, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolLayout.createSequentialGroup()
@@ -244,7 +268,9 @@ public class View extends javax.swing.JFrame {
                 .addComponent(sliderCorrection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonAutoCorrection, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(buttonApplyChanging, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelToolLayout.createSequentialGroup()
                     .addGap(126, 126, 126)
@@ -274,12 +300,13 @@ public class View extends javax.swing.JFrame {
         menuItemOpen.setOpaque(true);
         menuFile.add(menuItemOpen);
 
-        menuItemClose.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
+        menuItemClose.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         menuItemClose.setBackground(new java.awt.Color(0, 204, 204));
         menuItemClose.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         menuItemClose.setForeground(new java.awt.Color(255, 255, 255));
         menuItemClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Close_24x24.png"))); // NOI18N
         menuItemClose.setText("Close");
+        menuItemClose.setEnabled(false);
         menuItemClose.setOpaque(true);
         menuFile.add(menuItemClose);
 
@@ -289,6 +316,7 @@ public class View extends javax.swing.JFrame {
         menuItemSave.setForeground(new java.awt.Color(255, 255, 255));
         menuItemSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Save_24x24.png"))); // NOI18N
         menuItemSave.setText("Save");
+        menuItemSave.setEnabled(false);
         menuItemSave.setOpaque(true);
         menuFile.add(menuItemSave);
 
@@ -298,6 +326,7 @@ public class View extends javax.swing.JFrame {
         menuItemSaveAs.setForeground(new java.awt.Color(255, 255, 255));
         menuItemSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Save_24x24.png"))); // NOI18N
         menuItemSaveAs.setText("Save as...");
+        menuItemSaveAs.setEnabled(false);
         menuItemSaveAs.setOpaque(true);
         menuFile.add(menuItemSaveAs);
 
@@ -328,6 +357,7 @@ public class View extends javax.swing.JFrame {
         menuItemUndo.setForeground(new java.awt.Color(255, 255, 255));
         menuItemUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Undo_24x24.png"))); // NOI18N
         menuItemUndo.setText("Undo");
+        menuItemUndo.setEnabled(false);
         menuItemUndo.setOpaque(true);
         menuItemUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -342,6 +372,7 @@ public class View extends javax.swing.JFrame {
         menuItemRedo.setForeground(new java.awt.Color(255, 255, 255));
         menuItemRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Redo_24x24.png"))); // NOI18N
         menuItemRedo.setText("Redo");
+        menuItemRedo.setEnabled(false);
         menuItemRedo.setOpaque(true);
         menuEdit.add(menuItemRedo);
 
@@ -350,6 +381,7 @@ public class View extends javax.swing.JFrame {
         menuItemReset.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         menuItemReset.setForeground(new java.awt.Color(255, 255, 255));
         menuItemReset.setText("Reset");
+        menuItemReset.setEnabled(false);
         menuItemReset.setOpaque(true);
         menuItemReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -405,32 +437,9 @@ public class View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void initView() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            setVisible(true);
         });
     }
 
@@ -450,16 +459,21 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxAntialiasedActionPerformed
 
-    private void imageLabelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_imageLabelAncestorAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_imageLabelAncestorAdded
-
     private void buttonAutoCorrectionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonAutoCorrectionMouseClicked
         CalibView calibUI = new CalibView(this, rootPaneCheckingEnabled);
         calibUI.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_buttonAutoCorrectionMouseClicked
 
+    private void buttonApplyChangingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonApplyChangingMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonApplyChangingMouseClicked
+
+    private void imageLabelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_imageLabelAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_imageLabelAncestorAdded
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonApplyChanging;
     private javax.swing.JButton buttonAutoCorrection;
     private javax.swing.ButtonGroup buttonTypeGroup;
     private javax.swing.JCheckBox checkBoxAntialiased;
@@ -491,4 +505,88 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JSlider sliderCorrection;
     private javax.swing.JSlider sliderRotate;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getButtonAutoCorrection() {
+        return buttonAutoCorrection;
+    }
+
+    public ButtonGroup getButtonTypeGroup() {
+        return buttonTypeGroup;
+    }
+
+    public JCheckBox getCheckBoxAntialiased() {
+        return checkBoxAntialiased;
+    }
+
+    public JCheckBox getCheckBoxPreview() {
+        return checkBoxPreview;
+    }
+
+    public JMenuItem getMenuItemAbout() {
+        return menuItemAbout;
+    }
+
+    public JMenuItem getMenuItemClose() {
+        return menuItemClose;
+    }
+
+    public JMenuItem getMenuItemExit() {
+        return menuItemExit;
+    }
+
+    public JMenuItem getMenuItemHelp() {
+        return menuItemHelp;
+    }
+
+    public JMenuItem getMenuItemOpen() {
+        return menuItemOpen;
+    }
+
+    public JMenuItem getMenuItemRedo() {
+        return menuItemRedo;
+    }
+
+    public JMenuItem getMenuItemReset() {
+        return menuItemReset;
+    }
+
+    public JMenuItem getMenuItemSave() {
+        return menuItemSave;
+    }
+
+    public JMenuItem getMenuItemSaveAs() {
+        return menuItemSaveAs;
+    }
+
+    public JMenuItem getMenuItemUndo() {
+        return menuItemUndo;
+    }
+
+    public JRadioButton getRadioButtonCircular() {
+        return radioButtonCircular;
+    }
+
+    public JRadioButton getRadioButtonDiagonal() {
+        return radioButtonDiagonal;
+    }
+
+    public JSlider getSliderCorrection() {
+        return sliderCorrection;
+    }
+
+    public JSlider getSliderRotate() {
+        return sliderRotate;
+    }
+
+    public javax.swing.JLabel getImageLabel() {
+        return imageLabel;
+    }
+
+    public void setImageLabel(JLabel imageLabel) {
+        this.imageLabel = imageLabel;
+    }
+
+    public void setDefaultImageLabel() {
+        imageLabel.setIcon(new ImageIcon(getClass().getResource(Constants.DEFAULTLABEL)));
+    }
 }

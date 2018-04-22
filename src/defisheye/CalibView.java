@@ -5,6 +5,8 @@
  */
 package defisheye;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author Dzmitry
@@ -13,6 +15,7 @@ public class CalibView extends javax.swing.JDialog {
 
     /**
      * Creates new form CalibUI
+     *
      * @param parent
      * @param modal
      */
@@ -47,6 +50,7 @@ public class CalibView extends javax.swing.JDialog {
         spinnerCalibCenterDistance = new javax.swing.JSpinner();
         buttonCalibRun = new javax.swing.JButton();
         panelPlanarImageCalib = new javax.swing.JPanel();
+        labelPlanarImage = new javax.swing.JLabel();
         menuBarCalib = new javax.swing.JMenuBar();
         menuFileCalib = new javax.swing.JMenu();
         menuItemOpenCalib = new javax.swing.JMenuItem();
@@ -57,7 +61,6 @@ public class CalibView extends javax.swing.JDialog {
         setTitle("Auto camera calibration");
         setBackground(new java.awt.Color(0, 153, 153));
         setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(800, 600));
         setModal(true);
         setName("dialogAutoCalib"); // NOI18N
@@ -201,7 +204,7 @@ public class CalibView extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(panelToolsCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(labelCalibPlanarRows, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(spinnerCalibRows, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+                    .addComponent(spinnerCalibRows))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelToolsCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(labelCalibPlanarCols, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -229,16 +232,22 @@ public class CalibView extends javax.swing.JDialog {
         panelPlanarImageCalib.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         panelPlanarImageCalib.setForeground(new java.awt.Color(255, 255, 255));
         panelPlanarImageCalib.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        panelPlanarImageCalib.setOpaque(false);
+
+        labelPlanarImage.setBackground(new java.awt.Color(0, 51, 102));
+        labelPlanarImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelPlanarImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/icon-image-250.png"))); // NOI18N
+        labelPlanarImage.setOpaque(true);
 
         javax.swing.GroupLayout panelPlanarImageCalibLayout = new javax.swing.GroupLayout(panelPlanarImageCalib);
         panelPlanarImageCalib.setLayout(panelPlanarImageCalibLayout);
         panelPlanarImageCalibLayout.setHorizontalGroup(
             panelPlanarImageCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(labelPlanarImage, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         panelPlanarImageCalibLayout.setVerticalGroup(
             panelPlanarImageCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(labelPlanarImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         menuBarCalib.setBackground(new java.awt.Color(0, 204, 204));
@@ -260,11 +269,13 @@ public class CalibView extends javax.swing.JDialog {
         menuItemOpenCalib.setOpaque(true);
         menuFileCalib.add(menuItemOpenCalib);
 
+        menuItemCloseCalib.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
         menuItemCloseCalib.setBackground(new java.awt.Color(0, 204, 204));
         menuItemCloseCalib.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         menuItemCloseCalib.setForeground(new java.awt.Color(255, 255, 255));
         menuItemCloseCalib.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Close_24x24.png"))); // NOI18N
         menuItemCloseCalib.setText("Close");
+        menuItemCloseCalib.setEnabled(false);
         menuItemCloseCalib.setOpaque(true);
         menuItemCloseCalib.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -321,27 +332,6 @@ public class CalibView extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonCalibRunMouseClicked
 
     public void initView() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CalibView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        
-        //</editor-fold>
-        //</editor-fold>
-
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
             CalibView dialog = new CalibView(new javax.swing.JFrame(), true);
@@ -365,6 +355,7 @@ public class CalibView extends javax.swing.JDialog {
     private javax.swing.JLabel labelCalibPlanarSpaceWidth;
     private javax.swing.JLabel labelCalibPlanarSquareWidth;
     private javax.swing.JLabel labelCalibPlanarType;
+    private javax.swing.JLabel labelPlanarImage;
     private javax.swing.JMenuBar menuBarCalib;
     private javax.swing.JMenu menuFileCalib;
     private javax.swing.JMenuItem menuItemCloseCalib;
@@ -379,4 +370,5 @@ public class CalibView extends javax.swing.JDialog {
     private javax.swing.JSpinner spinnerCalibSquareWidth;
     private javax.swing.JTextField textFieldCalibPathExamples;
     // End of variables declaration//GEN-END:variables
+
 }
