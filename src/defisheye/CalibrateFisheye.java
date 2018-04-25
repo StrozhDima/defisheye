@@ -12,22 +12,19 @@ import boofcv.abst.fiducial.calib.ConfigSquareGrid;
 import boofcv.abst.geo.calibration.CalibrateMonoPlanar;
 import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
 import boofcv.factory.fiducial.FactoryFiducialCalibration;
+import boofcv.gui.BoofSwingUtil;
 import boofcv.io.UtilIO;
 import boofcv.io.calibration.CalibrationIO;
 import boofcv.io.image.ConvertBufferedImage;
 import boofcv.io.image.UtilImageIO;
+import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.calib.CameraUniversalOmni;
 import boofcv.struct.image.GrayF32;
+import java.awt.Component;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Date;
+import java.security.InvalidParameterException;
 import java.util.List;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 /**
  *
@@ -36,91 +33,133 @@ import java.util.logging.SimpleFormatter;
 public class CalibrateFisheye {
 
 	private static final Logger logger = Logger.getGlobal();
-	private DetectorFiducialCalibration detector;
-	private ConfigChessboard configChessboard;
-	private ConfigSquareGrid configSquareGrid;
-	private ConfigCircleHexagonalGrid configCircleHexGrid;
-	private ConfigCircleRegularGrid configCircleRegGrid;
-	private String path;
-	private List<String> images;
 
 	/**
-	 * Constructor initialize (Chessboard)
+	 * Get detector Circle regular grid
 	 *
-	 * @param configChessboard
-	 * @param path
+	 * @param numRows
+	 * @param numCols
+	 * @param circleDiameter
+	 * @param centerDistance
+	 * @return DetectorFiducialCalibration
 	 */
-	public CalibrateFisheye(ConfigChessboard configChessboard, String path) {
-		this.configChessboard = configChessboard;
-		this.path = path;
-		this.detector = FactoryFiducialCalibration.chessboard(configChessboard);
+	static public DetectorFiducialCalibration getDetectorCircleRegularGrid(int numRows, int numCols, double circleDiameter, double centerDistance) {
+		// Circle Regular Grid Example (8, 10, 1.5, 2.5)
+		return FactoryFiducialCalibration.circleRegularGrid(new ConfigCircleRegularGrid(numRows, numCols, circleDiameter, centerDistance));
 	}
 
 	/**
-	 * Constructor initialize (SquareGrid)
+	 * Get detector Circle hexagonal grid
 	 *
-	 * @param configSquareGrid
-	 * @param path
+	 * @param numRows
+	 * @param numCols
+	 * @param centerDistance
+	 * @param circleDiameter
+	 * @return DetectorFiducialCalibration
 	 */
-	public CalibrateFisheye(ConfigSquareGrid configSquareGrid, String path) {
-		this.configSquareGrid = configSquareGrid;
-		this.path = path;
-		this.detector = FactoryFiducialCalibration.squareGrid(this.configSquareGrid);
+	static public DetectorFiducialCalibration getDetectorCircleHexagonalGrid(int numRows, int numCols, double circleDiameter, double centerDistance) {
+		// Hexagonal Circle Example (24, 28, 1, 1.2)
+		return FactoryFiducialCalibration.circleHexagonalGrid(new ConfigCircleHexagonalGrid(numRows, numCols, circleDiameter, centerDistance));
 	}
 
 	/**
-	 * Constructor initialize (CircleHexagonalGrid)
+	 * Get detector Square grid
 	 *
-	 * @param configCircleHexGrid
-	 * @param path
+	 * @param numRows
+	 * @param numCols
+	 * @param squareWidth
+	 * @param spaceWidth
+	 * @return DetectorFiducialCalibration
 	 */
-	public CalibrateFisheye(ConfigCircleHexagonalGrid configCircleHexGrid, String path) {
-		this.configCircleHexGrid = configCircleHexGrid;
-		this.path = path;
-		this.detector = FactoryFiducialCalibration.circleHexagonalGrid(this.configCircleHexGrid);
+	static public DetectorFiducialCalibration GetDetectorSquareGrid(int numRows, int numCols, double squareWidth, double spaceWidth) {
+		// Square Grid example (4, 3, 30, 30)
+		return FactoryFiducialCalibration.squareGrid(new ConfigSquareGrid(numRows, numCols, squareWidth, spaceWidth));
+
 	}
 
 	/**
-	 * Constructor initialize (ConfigCircleRegularGrid)
+	 * Get detector Chessboard
 	 *
-	 * @param configCircleRegGrid
-	 * @param path
+	 * @param numRows
+	 * @param numCols
+	 * @param squareWidth
+	 * @return DetectorFiducialCalibration
 	 */
-	public CalibrateFisheye(ConfigCircleRegularGrid configCircleRegGrid, String path) {
-		this.configCircleRegGrid = configCircleRegGrid;
-		this.path = path;
-		this.detector = FactoryFiducialCalibration.circleRegularGrid(this.configCircleRegGrid);
+	static public DetectorFiducialCalibration GetDetectorChessboard(int numRows, int numCols, double squareWidth) {
+		// Chessboard Example (7, 5, 30)
+		return FactoryFiducialCalibration.chessboard(new ConfigChessboard(numRows, numCols, squareWidth));
 	}
 
-	public CameraUniversalOmni calculateMonocularParams() {
-		logger.info("Called function calculateMonocularParams");
-		this.images = UtilIO.listAll(UtilIO.pathExample(this.path));
-		// Declare and setup the calibration algorithm
-		CalibrateMonoPlanar calibrationAlg = new CalibrateMonoPlanar(this.detector.getLayout());
-		// tell it type type of target and which parameters to estimate
-		calibrationAlg.configureUniversalOmni(true, 2, false);
-		// it's also possible to fix the mirror offset parameter
-		// 0 = pinhole camera. 1 = fisheye
-		//calibrationAlg.configureUniversalOmni( true, 2, false,1.0);
-		for (String n : this.images) {
+	/**
+	 * Get FullFrameParams parameters
+	 *
+	 * @param component
+	 * @param folderPath
+	 * @param detector
+	 * @return CameraPinholeRadial
+	 */
+	static public CameraPinholeRadial getDaigonalParams(Component component, String folderPath, DetectorFiducialCalibration detector) {
+		logger.info("Called function getFullFrameParams()");
+		// добавление изображений в список
+		List<String> images = UtilIO.listAll(UtilIO.pathExample(folderPath));
+		// обявление и инициализация алгоритма калибровки
+		CalibrateMonoPlanar calibrationAlg = new CalibrateMonoPlanar(detector.getLayout());
+		// устанавливаем тип и какие параметры оценить (4 параметр исправляет смещение зеркала)
+		calibrationAlg.configurePinhole(true, 2, false);
+		// проходимся по списку изображений и обнаруживаем точки на каждом из них
+		images.forEach((n) -> {
 			BufferedImage input = UtilImageIO.loadImage(n);
 			if (input != null) {
 				GrayF32 image = ConvertBufferedImage.convertFrom(input, (GrayF32) null);
-				if (this.detector.process(image)) {
-					calibrationAlg.addImage(this.detector.getDetectedPoints().copy());
+				if (detector.process(image)) {
+					calibrationAlg.addImage(detector.getDetectedPoints().copy());
 				} else {
-					logger.severe("Failed to detect target in :" + n);
+					BoofSwingUtil.warningDialog(component, new InvalidParameterException("Failed to detect target in" + n));
+					logger.warning("getFullFrameParams(): Failed to detect target in " + n);
 				}
 			}
-		}
-		// process and compute intrinsic parameters
+		});
+		// обрабатываем точки и вычисляем внутренние параметры камеры
+		CameraPinholeRadial intrinsic = calibrationAlg.process();
+		logger.info("\nfx:" + intrinsic.fx + "\nfy:" + intrinsic.fy + "\ncx:" + intrinsic.cx + "\ncy:" + intrinsic.cy + "\nskew:" + intrinsic.skew);
+		// сохраняем результаты в файл
+		CalibrationIO.save(intrinsic, folderPath + "/fisheye.yaml");
+		return intrinsic;
+	}
+
+	/**
+	 * Get camera circular parameters
+	 *
+	 * @param folderPath
+	 * @param detector
+	 * @return CameraUniversalOmni
+	 */
+	static public CameraUniversalOmni getCircularParams(Component component, String folderPath, DetectorFiducialCalibration detector) {
+		logger.info("Called function getCircularParams()");
+		// добавление изображений в список
+		List<String> images = UtilIO.listAll(UtilIO.pathExample(folderPath));
+		// обявление и инициализация алгоритма калибровки
+		CalibrateMonoPlanar calibrationAlg = new CalibrateMonoPlanar(detector.getLayout());
+		// устанавливаем тип и какие параметры оценить (4 параметр исправляет смещение зеркала)
+		calibrationAlg.configureUniversalOmni(true, 2, false);
+		// проходимся по списку изображений и обнаруживаем точки на каждом из них
+		images.forEach((n) -> {
+			BufferedImage input = UtilImageIO.loadImage(n);
+			if (input != null) {
+				GrayF32 image = ConvertBufferedImage.convertFrom(input, (GrayF32) null);
+				if (detector.process(image)) {
+					calibrationAlg.addImage(detector.getDetectedPoints().copy());
+				} else {
+					BoofSwingUtil.warningDialog(component, new InvalidParameterException("Failed to detect target in" + n));
+					logger.warning("getCircularParams(): Failed to detect target in " + n);
+				}
+			}
+		});
+		// обрабатываем точки и вычисляем внутренние параметры камеры
 		CameraUniversalOmni intrinsic = calibrationAlg.process();
-		// save results to a file and print out
-		CalibrationIO.save(intrinsic, "fisheye.yaml");
-		calibrationAlg.printStatistics();
-		System.out.println("--- Intrinsic Parameters ---");
-		System.out.println();
-		intrinsic.print();
+		logger.info("\nfx:" + intrinsic.fx + "\nfy:" + intrinsic.fy + "\ncx:" + intrinsic.cx + "\ncy:" + intrinsic.cy + "\nskew:" + intrinsic.skew);
+		// сохраняем результаты в файл
+		CalibrationIO.save(intrinsic, folderPath + "/fisheye.yaml");
 		return intrinsic;
 	}
 }

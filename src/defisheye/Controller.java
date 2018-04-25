@@ -5,25 +5,20 @@
  */
 package defisheye;
 
-import boofcv.abst.fiducial.calib.ConfigChessboard;
-import boofcv.abst.fiducial.calib.ConfigCircleHexagonalGrid;
-import boofcv.abst.fiducial.calib.ConfigCircleRegularGrid;
-import boofcv.abst.fiducial.calib.ConfigSquareGrid;
+import boofcv.gui.BoofSwingUtil;
+import boofcv.struct.calib.CameraPinholeRadial;
+import boofcv.struct.calib.CameraUniversalOmni;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.security.InvalidParameterException;
 import java.util.function.Supplier;
-import java.util.logging.FileHandler;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,9 +30,12 @@ public class Controller {
 	private final Model model;
 	private final View view;
 	private final CalibView calibView;
+	private CameraPinholeRadial cameraDiagonalParams;
+	private CameraUniversalOmni cameraCircularParams;
 	private File imageFile;
 	private File pathPalnars;
 	private BufferedImage image;
+	private BufferedImage tempImage;
 
 	/**
 	 * Constructor initialize
@@ -56,7 +54,6 @@ public class Controller {
 	 * Initialize Controller (listeners)
 	 */
 	public void initController() {
-
 		//обработка нажатия пункта меню File -> Open...
 		this.view.getMenuItemOpen().addActionListener((ActionEvent e) -> {
 			logger.info("Pressed menu item 'File -> Open...'");
@@ -131,12 +128,12 @@ public class Controller {
 		});
 
 		//обработка нажатия пункта меню Edit -> Undo
-		this.view.getMenuItemUndo().addActionListener((ActionEvent e) -> {
+		this.view.getMenuItemSaveSettings().addActionListener((ActionEvent e) -> {
 
 		});
 
 		//обработка нажатия пункта меню Edit -> Redo
-		this.view.getMenuItemRedo().addActionListener((ActionEvent e) -> {
+		this.view.getMenuItemLoadSettings().addActionListener((ActionEvent e) -> {
 
 		});
 
@@ -155,15 +152,48 @@ public class Controller {
 
 		});
 
+		//обработка кнопки Apply
+		this.view.getButtonApplyChanging().addActionListener((ActionEvent e) -> {
+
+			if (this.view.getRadioButtonDiagonal().isSelected()) {
+				logger.info("Pressed button Apply (with RadioButton Circular)");
+				setDiagonalParams(
+						Double.parseDouble(String.valueOf(this.view.getSpinnerFX().getValue())),
+						Double.parseDouble(String.valueOf(this.view.getSpinnerFY().getValue())),
+						Double.parseDouble(String.valueOf(this.view.getSpinnerCX().getValue())),
+						Double.parseDouble(String.valueOf(this.view.getSpinnerCY().getValue())),
+						Integer.parseInt(String.valueOf(this.view.getSpinnerWidth().getValue())),
+						Integer.parseInt(String.valueOf(this.view.getSpinnerHeigth().getValue()))
+				);
+				this.tempImage = new Corrector().calibrationDiagonal(this.image, this.cameraDiagonalParams);
+				BufferedImage scaled = scale(this.tempImage, this.view.getImageLabel().getWidth(), this.view.getImageLabel().getHeight());
+				this.view.getImageLabel().setIcon(new ImageIcon(scaled));
+			} else if (this.view.getRadioButtonCircular().isSelected()) {
+				logger.info("Pressed button Apply (with RadioButton Diagonal)");
+				setCircularParams(
+						Double.parseDouble(String.valueOf(this.view.getSpinnerFX().getValue())),
+						Double.parseDouble(String.valueOf(this.view.getSpinnerFY().getValue())),
+						Double.parseDouble(String.valueOf(this.view.getSpinnerCX().getValue())),
+						Double.parseDouble(String.valueOf(this.view.getSpinnerCY().getValue())),
+						Integer.parseInt(String.valueOf(this.view.getSpinnerWidth().getValue())),
+						Integer.parseInt(String.valueOf(this.view.getSpinnerHeigth().getValue()))
+				);
+				this.tempImage = new Corrector().calibrationCircular(this.image, this.cameraCircularParams);
+				BufferedImage scaled = scale(this.tempImage, this.view.getImageLabel().getWidth(), this.view.getImageLabel().getHeight());
+				this.view.getImageLabel().setIcon(new ImageIcon(scaled));
+			}
+		});
+
 		/*Работа с модулем автоматической калибровки камеры*/
 		//обработка нажатия пункта меню File -> Open...
 		this.calibView.getMenuItemOpenCalib().addActionListener((ActionEvent e) -> {
 			logger.info("Pressed menu item 'File -> Open...'");
 			this.model.setDialogTitle(Constants.CALIB_OPENFILECHOOSER);
 			this.model.setFileSelectionMode(Model.DIRECTORIES_ONLY);
+			this.model.setAcceptAllFileFilterUsed(false);
 			int result = this.model.showOpenDialog(this.calibView);
 			if (result == Model.APPROVE_OPTION) {
-				this.pathPalnars = this.model.getSelectedFile();
+				this.pathPalnars = (new File(this.model.getSelectedFile().getAbsolutePath()));
 				this.view.getMenuItemClose().setEnabled(true);
 				logger.info("Directory is: " + this.pathPalnars);
 			} else {
@@ -192,38 +222,70 @@ public class Controller {
 
 		//обработка нажатия кнопки "Run"
 		this.calibView.getButtonCalibRun().addActionListener((ActionEvent e) -> {
-			logger.info("Pressed calib menu item 'File -> Close'");
-			CalibrateFisheye calibrateFisheye;
-			int centerDistance = (Integer) this.calibView.getSpinnerCalibCenterDistance().getValue();
+			logger.info("Pressed calib button 'Run'");
+			double centerDistance = Double.parseDouble(String.valueOf(this.calibView.getSpinnerCalibCenterDistance().getValue()));
 			int cols = (Integer) this.calibView.getSpinnerCalibCols().getValue();
 			int rows = (Integer) this.calibView.getSpinnerCalibRows().getValue();
-			int spaceWidth = (Integer) this.calibView.getSpinnerCalibSpaceWidth().getValue();
-			int squareWidth = (Integer) this.calibView.getSpinnerCalibSquareWidth().getValue();
-			int circleDiametr = (Integer) this.calibView.getSpinnerCalibCircleDiametr().getValue();
+			double spaceWidth = Double.parseDouble(String.valueOf(this.calibView.getSpinnerCalibSpaceWidth().getValue()));
+			double squareWidth = Double.parseDouble(String.valueOf(this.calibView.getSpinnerCalibSquareWidth().getValue()));
+			double circleDiametr = Double.parseDouble(String.valueOf(this.calibView.getSpinnerCalibCircleDiametr().getValue()));
 			String path = this.calibView.getTextFieldCalibPathExamples().getText();
+			try {
+				// проверяем какой тип планарного изображения выбран
+				switch (this.calibView.getComboBoxCalibPlanarType().getSelectedItem().toString()) {
+					// если chessboard
+					case Constants.PLANAR_CHESSBOARD:
+						// проверяем какой тип изображения будет обрабатываться
+						if (this.view.getRadioButtonDiagonal().isSelected()) {
+							this.cameraDiagonalParams = CalibrateFisheye.getDaigonalParams(this.view, path, CalibrateFisheye.GetDetectorChessboard(rows, cols, squareWidth));
+							setSettingsValueToSpinners(this.cameraDiagonalParams.getFx(), this.cameraDiagonalParams.getFy(), this.cameraDiagonalParams.getCx(), this.cameraDiagonalParams.getCy(), this.cameraDiagonalParams.getWidth(), this.cameraDiagonalParams.getHeight());
+						} else if (this.view.getRadioButtonCircular().isSelected()) {
+							this.cameraCircularParams = CalibrateFisheye.getCircularParams(this.view, path, CalibrateFisheye.GetDetectorChessboard(rows, cols, squareWidth));
+							setSettingsValueToSpinners(this.cameraCircularParams.getFx(), this.cameraCircularParams.getFy(), this.cameraCircularParams.getCx(), this.cameraCircularParams.getCy(), this.cameraCircularParams.getWidth(), this.cameraCircularParams.getHeight());
+						}
+						break;
+					// если circle regular grid
+					case Constants.PLANAR_CIRCLE_GRID:
+						//проверяем какой тип изображения будет обрабатываться
+						if (this.view.getRadioButtonDiagonal().isSelected()) {
+							this.cameraDiagonalParams = CalibrateFisheye.getDaigonalParams(this.view, path, CalibrateFisheye.getDetectorCircleRegularGrid(rows, cols, circleDiametr, centerDistance));
+							setSettingsValueToSpinners(this.cameraDiagonalParams.getFx(), this.cameraDiagonalParams.getFy(), this.cameraDiagonalParams.getCx(), this.cameraDiagonalParams.getCy(), this.cameraDiagonalParams.getWidth(), this.cameraDiagonalParams.getHeight());
+						} else if (this.view.getRadioButtonCircular().isSelected()) {
+							this.cameraCircularParams = CalibrateFisheye.getCircularParams(this.view, path, CalibrateFisheye.getDetectorCircleRegularGrid(rows, cols, circleDiametr, centerDistance));
+							setSettingsValueToSpinners(this.cameraCircularParams.getFx(), this.cameraCircularParams.getFy(), this.cameraCircularParams.getCx(), this.cameraCircularParams.getCy(), this.cameraCircularParams.getWidth(), this.cameraCircularParams.getHeight());
+						}
+						break;
+					// если circle hexagonal grid
+					case Constants.PLANAR_CIRCLE_HEX:
+						//проверяем какой тип изображения будет обрабатываться
+						if (this.view.getRadioButtonDiagonal().isSelected()) {
+							this.cameraDiagonalParams = CalibrateFisheye.getDaigonalParams(this.view, path, CalibrateFisheye.getDetectorCircleHexagonalGrid(rows, cols, circleDiametr, centerDistance));
+							setSettingsValueToSpinners(this.cameraDiagonalParams.getFx(), this.cameraDiagonalParams.getFy(), this.cameraDiagonalParams.getCx(), this.cameraDiagonalParams.getCy(), this.cameraDiagonalParams.getWidth(), this.cameraDiagonalParams.getHeight());
+						} else if (this.view.getRadioButtonCircular().isSelected()) {
+							this.cameraCircularParams = CalibrateFisheye.getCircularParams(this.view, path, CalibrateFisheye.getDetectorCircleHexagonalGrid(rows, cols, circleDiametr, centerDistance));
+							setSettingsValueToSpinners(this.cameraCircularParams.getFx(), this.cameraCircularParams.getFy(), this.cameraCircularParams.getCx(), this.cameraCircularParams.getCy(), this.cameraCircularParams.getWidth(), this.cameraCircularParams.getHeight());
+						}
+						break;
 
-			switch (this.calibView.getComboBoxCalibPlanarType().getSelectedItem().toString()) {
-				case Constants.PLANAR_CHESSBOARD:
-					//7, 5, 30
-					calibrateFisheye = new CalibrateFisheye(new ConfigChessboard(rows, cols, squareWidth), path);
-					calibrateFisheye.calculateMonocularParams();
-					break;
+					case Constants.PLANAR_SQUARE_GRIDS:
+						//проверяем какой тип изображения будет обрабатываться
+						if (this.view.getRadioButtonDiagonal().isSelected()) {
+							this.cameraDiagonalParams = CalibrateFisheye.getDaigonalParams(this.view, path, CalibrateFisheye.GetDetectorSquareGrid(rows, cols, squareWidth, spaceWidth));
+							setSettingsValueToSpinners(this.cameraDiagonalParams.getFx(), this.cameraDiagonalParams.getFy(), this.cameraDiagonalParams.getCx(), this.cameraDiagonalParams.getCy(), this.cameraDiagonalParams.getWidth(), this.cameraDiagonalParams.getHeight());
+						} else if (this.view.getRadioButtonCircular().isSelected()) {
+							this.cameraCircularParams = CalibrateFisheye.getCircularParams(this.view, path, CalibrateFisheye.GetDetectorSquareGrid(rows, cols, squareWidth, spaceWidth));
+							setSettingsValueToSpinners(this.cameraCircularParams.getFx(), this.cameraCircularParams.getFy(), this.cameraCircularParams.getCx(), this.cameraCircularParams.getCy(), this.cameraCircularParams.getWidth(), this.cameraCircularParams.getHeight());
+						}
 
-				case Constants.PLANAR_CIRCLE_GRID:
-					calibrateFisheye = new CalibrateFisheye(new ConfigCircleRegularGrid(rows, cols, circleDiametr, centerDistance), path);
-					break;
-
-				case Constants.PLANAR_CIRCLE_HEX:
-					calibrateFisheye = new CalibrateFisheye(new ConfigCircleHexagonalGrid(rows, cols, circleDiametr, centerDistance), path);
-					break;
-
-				case Constants.PLANAR_SQUARE_GRIDS:
-					calibrateFisheye = new CalibrateFisheye(new ConfigSquareGrid(rows, cols, squareWidth, spaceWidth), path);
-					break;
-
-				default:
-					throw new IllegalArgumentException("Invalid type of planar");
+						break;
+					default:
+						logger.warning("Invalid type of planar");
+						JOptionPane.showMessageDialog(this.view, "Invalid type of planar", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (IllegalArgumentException ex) {
+				BoofSwingUtil.warningDialog(this.view, new InvalidParameterException("Wrong parameters!\nPath: " + path + "; rows:" + rows + "; cols" + cols + "; square width:" + squareWidth));
 			}
+			JOptionPane.showMessageDialog(this.view, "Success!");
 		});
 
 		//обработка выбора типа планара
@@ -259,9 +321,37 @@ public class Controller {
 					break;
 
 				default:
-					throw new IllegalArgumentException("Invalid type of planar");
+					logger.warning("Invalid type of planar");
+					BoofSwingUtil.warningDialog(this.view, new InvalidParameterException("Invalid type of planar"));
 			}
 		});
+	}
+
+	private void setSettingsValueToSpinners(double fx, double fy, double cx, double cy, int width, int height) {
+		this.view.getSpinnerFX().setValue(fx);
+		this.view.getSpinnerFY().setValue(fy);
+		this.view.getSpinnerCX().setValue(cx);
+		this.view.getSpinnerCY().setValue(cy);
+		this.view.getSpinnerWidth().setValue(width);
+		this.view.getSpinnerHeigth().setValue(height);
+	}
+
+	private void setDiagonalParams(double fx, double fy, double cx, double cy, int width, int height) {
+		this.cameraDiagonalParams.setFx(fx);
+		this.cameraDiagonalParams.setFy(fy);
+		this.cameraDiagonalParams.setCx(cx);
+		this.cameraDiagonalParams.setCy(cy);
+		this.cameraDiagonalParams.setWidth(width);
+		this.cameraDiagonalParams.setHeight(height);
+	}
+
+	private void setCircularParams(double fx, double fy, double cx, double cy, int width, int height) {
+		this.cameraCircularParams.setFx(fx);
+		this.cameraCircularParams.setFy(fy);
+		this.cameraCircularParams.setCx(cx);
+		this.cameraCircularParams.setCy(cy);
+		this.cameraCircularParams.setWidth(width);
+		this.cameraCircularParams.setHeight(height);
 	}
 
 	/**

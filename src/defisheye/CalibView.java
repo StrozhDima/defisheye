@@ -5,8 +5,6 @@
  */
 package defisheye;
 
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 import javax.swing.ImageIcon;
 
 /**
@@ -196,8 +194,8 @@ public class CalibView extends javax.swing.JDialog {
                                     .addComponent(labelCalibPlanarCenterDistance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelToolsCalibLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(spinnerCalibCenterDistance, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                                    .addComponent(spinnerCalibRows, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                                    .addComponent(spinnerCalibCenterDistance)
+                                    .addComponent(spinnerCalibRows)
                                     .addComponent(spinnerCalibCols)
                                     .addComponent(spinnerCalibSquareWidth)
                                     .addComponent(spinnerCalibSpaceWidth)
@@ -247,6 +245,12 @@ public class CalibView extends javax.swing.JDialog {
         );
 
         comboBoxCalibPlanarType.getAccessibleContext().setAccessibleDescription("Choose type");
+        spinnerCalibRows.setValue(7);
+        spinnerCalibCols.setValue(5);
+        spinnerCalibSquareWidth.setValue(30);
+        spinnerCalibSpaceWidth.setValue(30);
+        spinnerCalibCenterDistance.setValue(1.2);
+        spinnerCalibCircleDiametr.setValue(1);
 
         panelPlanarImageCalib.setBackground(new java.awt.Color(0, 0, 51));
         panelPlanarImageCalib.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));

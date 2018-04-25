@@ -197,8 +197,8 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="spinnerCalibCenterDistance" alignment="0" pref="50" max="32767" attributes="0"/>
-                                      <Component id="spinnerCalibRows" pref="50" max="32767" attributes="0"/>
+                                      <Component id="spinnerCalibCenterDistance" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="spinnerCalibRows" max="32767" attributes="0"/>
                                       <Component id="spinnerCalibCols" max="32767" attributes="0"/>
                                       <Component id="spinnerCalibSquareWidth" max="32767" attributes="0"/>
                                       <Component id="spinnerCalibSpaceWidth" max="32767" attributes="0"/>
@@ -377,6 +377,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="spinnerCalibRows.setValue(7);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="labelCalibPlanarCols">
           <Properties>
@@ -401,6 +404,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="spinnerCalibCols.setValue(5);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="labelCalibPlanarSquareWidth">
           <Properties>
@@ -425,6 +431,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="spinnerCalibSquareWidth.setValue(30);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="labelCalibPlanarSpaceWidth">
           <Properties>
@@ -450,6 +459,9 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="spinnerCalibSpaceWidth.setValue(30);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="labelCalibPlanarCenterDistance">
           <Properties>
@@ -475,6 +487,9 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="spinnerCalibCenterDistance.setValue(1.2);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="buttonCalibRun">
           <Properties>
@@ -517,6 +532,9 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="spinnerCalibCircleDiametr.setValue(1);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

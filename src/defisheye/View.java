@@ -55,6 +55,18 @@ public class View extends javax.swing.JFrame {
         sliderRotate = new javax.swing.JSlider();
         buttonAutoCorrection = new javax.swing.JButton();
         buttonApplyChanging = new javax.swing.JButton();
+        labelTypeFX = new javax.swing.JLabel();
+        labelTypeFY = new javax.swing.JLabel();
+        spinnerFX = new javax.swing.JSpinner();
+        spinnerFY = new javax.swing.JSpinner();
+        labelTypeCX = new javax.swing.JLabel();
+        spinnerCX = new javax.swing.JSpinner();
+        labelTypeCY = new javax.swing.JLabel();
+        spinnerCY = new javax.swing.JSpinner();
+        labelTypeWidth = new javax.swing.JLabel();
+        spinnerWidth = new javax.swing.JSpinner();
+        labelTypeHeight = new javax.swing.JLabel();
+        spinnerHeigth = new javax.swing.JSpinner();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuItemOpen = new javax.swing.JMenuItem();
@@ -62,9 +74,9 @@ public class View extends javax.swing.JFrame {
         menuItemSave = new javax.swing.JMenuItem();
         menuItemSaveAs = new javax.swing.JMenuItem();
         menuItemExit = new javax.swing.JMenuItem();
-        menuEdit = new javax.swing.JMenu();
-        menuItemUndo = new javax.swing.JMenuItem();
-        menuItemRedo = new javax.swing.JMenuItem();
+        menuSettings = new javax.swing.JMenu();
+        menuItemLoadSettings = new javax.swing.JMenuItem();
+        menuItemSaveSettings = new javax.swing.JMenuItem();
         menuItemReset = new javax.swing.JMenuItem();
         menuHelp = new javax.swing.JMenu();
         menuItemHelp = new javax.swing.JMenuItem();
@@ -93,12 +105,12 @@ public class View extends javax.swing.JFrame {
         imageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         imageLabel.setOpaque(true);
         imageLabel.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 imageLabelAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
 
@@ -106,7 +118,7 @@ public class View extends javax.swing.JFrame {
         panelImages.setLayout(panelImagesLayout);
         panelImagesLayout.setHorizontalGroup(
             panelImagesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 928, Short.MAX_VALUE)
+            .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 911, Short.MAX_VALUE)
         );
         panelImagesLayout.setVerticalGroup(
             panelImagesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +179,8 @@ public class View extends javax.swing.JFrame {
         buttonTypeGroup.add(radioButtonDiagonal);
         radioButtonDiagonal.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         radioButtonDiagonal.setForeground(new java.awt.Color(255, 255, 255));
-        radioButtonDiagonal.setText("Full-frame fisheye");
+        radioButtonDiagonal.setSelected(true);
+        radioButtonDiagonal.setText("Diagonal fisheye");
 
         labelTypeImage.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         labelTypeImage.setForeground(new java.awt.Color(255, 255, 255));
@@ -216,6 +229,54 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        labelTypeFX.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        labelTypeFX.setForeground(new java.awt.Color(255, 255, 255));
+        labelTypeFX.setText("fx:");
+
+        labelTypeFY.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        labelTypeFY.setForeground(new java.awt.Color(255, 255, 255));
+        labelTypeFY.setText("fy:");
+
+        spinnerFX.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        spinnerFX.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerFX.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        spinnerFY.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        spinnerFY.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerFY.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        labelTypeCX.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        labelTypeCX.setForeground(new java.awt.Color(255, 255, 255));
+        labelTypeCX.setText("cx:");
+
+        spinnerCX.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        spinnerCX.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerCX.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        labelTypeCY.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        labelTypeCY.setForeground(new java.awt.Color(255, 255, 255));
+        labelTypeCY.setText("cy:");
+
+        spinnerCY.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        spinnerCY.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerCY.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        labelTypeWidth.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        labelTypeWidth.setForeground(new java.awt.Color(255, 255, 255));
+        labelTypeWidth.setText("width:");
+
+        spinnerWidth.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        spinnerWidth.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerWidth.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        labelTypeHeight.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        labelTypeHeight.setForeground(new java.awt.Color(255, 255, 255));
+        labelTypeHeight.setText("heigth:");
+
+        spinnerHeigth.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        spinnerHeigth.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerHeigth.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
         javax.swing.GroupLayout panelToolLayout = new javax.swing.GroupLayout(panelTool);
         panelTool.setLayout(panelToolLayout);
         panelToolLayout.setHorizontalGroup(
@@ -225,7 +286,7 @@ public class View extends javax.swing.JFrame {
                 .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonAutoCorrection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelTransform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelProcessing, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                    .addComponent(labelProcessing, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
                     .addComponent(sliderCorrection, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelRotate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelTypeImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -234,47 +295,87 @@ public class View extends javax.swing.JFrame {
                     .addComponent(radioButtonDiagonal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(radioButtonCircular, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelCorrectionImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonApplyChanging, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelToolLayout.createSequentialGroup()
-                    .addContainerGap()
+                    .addComponent(buttonApplyChanging, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sliderRotate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                    .addGroup(panelToolLayout.createSequentialGroup()
+                        .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelToolLayout.createSequentialGroup()
+                                .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelTypeFX)
+                                    .addComponent(labelTypeCX))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(spinnerFX, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                    .addComponent(spinnerCX)))
+                            .addGroup(panelToolLayout.createSequentialGroup()
+                                .addComponent(labelTypeWidth)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                                .addComponent(spinnerWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(29, 29, 29)
+                        .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelToolLayout.createSequentialGroup()
+                                .addComponent(labelTypeHeight)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerHeigth, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelToolLayout.createSequentialGroup()
+                                .addComponent(labelTypeCY, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerCY))
+                            .addGroup(panelToolLayout.createSequentialGroup()
+                                .addComponent(labelTypeFY, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerFY)))))
+                .addContainerGap())
         );
         panelToolLayout.setVerticalGroup(
             panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelToolLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(labelTransform, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelRotate, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sliderRotate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkBoxPreview)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkBoxAntialiased)
-                .addGap(48, 48, 48)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelProcessing, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(labelTypeImage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioButtonDiagonal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioButtonCircular)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelCorrectionImage)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelTypeFX)
+                    .addComponent(spinnerFX)
+                    .addComponent(spinnerFY)
+                    .addComponent(labelTypeFY))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelTypeCX)
+                    .addComponent(spinnerCX)
+                    .addComponent(spinnerCY)
+                    .addComponent(labelTypeCY))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelTypeHeight)
+                        .addComponent(spinnerHeigth)
+                        .addComponent(spinnerWidth))
+                    .addComponent(labelTypeWidth))
+                .addGap(22, 22, 22)
                 .addComponent(sliderCorrection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonAutoCorrection, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(buttonApplyChanging, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(panelToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelToolLayout.createSequentialGroup()
-                    .addGap(126, 126, 126)
-                    .addComponent(sliderRotate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(553, Short.MAX_VALUE)))
         );
 
         menuBar.setBackground(new java.awt.Color(0, 204, 204));
@@ -344,36 +445,39 @@ public class View extends javax.swing.JFrame {
 
         menuBar.add(menuFile);
 
-        menuEdit.setBackground(new java.awt.Color(0, 204, 204));
-        menuEdit.setForeground(new java.awt.Color(255, 255, 255));
-        menuEdit.setText("Edit");
-        menuEdit.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        menuEdit.setOpaque(true);
+        menuSettings.setBackground(new java.awt.Color(0, 204, 204));
+        menuSettings.setForeground(new java.awt.Color(255, 255, 255));
+        menuSettings.setText("Settings");
+        menuSettings.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuSettings.setOpaque(true);
 
-        menuItemUndo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
-        menuItemUndo.setBackground(new java.awt.Color(0, 204, 204));
-        menuItemUndo.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        menuItemUndo.setForeground(new java.awt.Color(255, 255, 255));
-        menuItemUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Undo_24x24.png"))); // NOI18N
-        menuItemUndo.setText("Undo");
-        menuItemUndo.setEnabled(false);
-        menuItemUndo.setOpaque(true);
-        menuItemUndo.addActionListener(new java.awt.event.ActionListener() {
+        menuItemLoadSettings.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemLoadSettings.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemLoadSettings.setForeground(new java.awt.Color(255, 255, 255));
+        menuItemLoadSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Redo_24x24.png"))); // NOI18N
+        menuItemLoadSettings.setText("Load");
+        menuItemLoadSettings.setEnabled(false);
+        menuItemLoadSettings.setOpaque(true);
+        menuItemLoadSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemUndoActionPerformed(evt);
+                menuItemLoadSettingsActionPerformed(evt);
             }
         });
-        menuEdit.add(menuItemUndo);
+        menuSettings.add(menuItemLoadSettings);
 
-        menuItemRedo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        menuItemRedo.setBackground(new java.awt.Color(0, 204, 204));
-        menuItemRedo.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        menuItemRedo.setForeground(new java.awt.Color(255, 255, 255));
-        menuItemRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Redo_24x24.png"))); // NOI18N
-        menuItemRedo.setText("Redo");
-        menuItemRedo.setEnabled(false);
-        menuItemRedo.setOpaque(true);
-        menuEdit.add(menuItemRedo);
+        menuItemSaveSettings.setBackground(new java.awt.Color(0, 204, 204));
+        menuItemSaveSettings.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        menuItemSaveSettings.setForeground(new java.awt.Color(255, 255, 255));
+        menuItemSaveSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/defisheye/Undo_24x24.png"))); // NOI18N
+        menuItemSaveSettings.setText("Save");
+        menuItemSaveSettings.setEnabled(false);
+        menuItemSaveSettings.setOpaque(true);
+        menuItemSaveSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemSaveSettingsActionPerformed(evt);
+            }
+        });
+        menuSettings.add(menuItemSaveSettings);
 
         menuItemReset.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         menuItemReset.setBackground(new java.awt.Color(0, 204, 204));
@@ -387,9 +491,9 @@ public class View extends javax.swing.JFrame {
                 menuItemResetActionPerformed(evt);
             }
         });
-        menuEdit.add(menuItemReset);
+        menuSettings.add(menuItemReset);
 
-        menuBar.add(menuEdit);
+        menuBar.add(menuSettings);
 
         menuHelp.setBackground(new java.awt.Color(0, 204, 204));
         menuHelp.setForeground(new java.awt.Color(255, 255, 255));
@@ -446,9 +550,9 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_menuItemExitActionPerformed
 
-    private void menuItemUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemUndoActionPerformed
+    private void menuItemSaveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSaveSettingsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_menuItemUndoActionPerformed
+    }//GEN-LAST:event_menuItemSaveSettingsActionPerformed
 
     private void menuItemResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemResetActionPerformed
         // TODO add your handling code here:
@@ -470,6 +574,10 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_imageLabelAncestorAdded
 
+    private void menuItemLoadSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemLoadSettingsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuItemLoadSettingsActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonApplyChanging;
     private javax.swing.JButton buttonAutoCorrection;
@@ -481,27 +589,39 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel labelProcessing;
     private javax.swing.JLabel labelRotate;
     private javax.swing.JLabel labelTransform;
+    private javax.swing.JLabel labelTypeCX;
+    private javax.swing.JLabel labelTypeCY;
+    private javax.swing.JLabel labelTypeFX;
+    private javax.swing.JLabel labelTypeFY;
+    private javax.swing.JLabel labelTypeHeight;
     private javax.swing.JLabel labelTypeImage;
+    private javax.swing.JLabel labelTypeWidth;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenu menuEdit;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenu menuHelp;
     private javax.swing.JMenuItem menuItemAbout;
     private javax.swing.JMenuItem menuItemClose;
     private javax.swing.JMenuItem menuItemExit;
     private javax.swing.JMenuItem menuItemHelp;
+    private javax.swing.JMenuItem menuItemLoadSettings;
     private javax.swing.JMenuItem menuItemOpen;
-    private javax.swing.JMenuItem menuItemRedo;
     private javax.swing.JMenuItem menuItemReset;
     private javax.swing.JMenuItem menuItemSave;
     private javax.swing.JMenuItem menuItemSaveAs;
-    private javax.swing.JMenuItem menuItemUndo;
+    private javax.swing.JMenuItem menuItemSaveSettings;
+    private javax.swing.JMenu menuSettings;
     private javax.swing.JPanel panelImages;
     private javax.swing.JPanel panelTool;
     private javax.swing.JRadioButton radioButtonCircular;
     private javax.swing.JRadioButton radioButtonDiagonal;
     private javax.swing.JSlider sliderCorrection;
     private javax.swing.JSlider sliderRotate;
+    private javax.swing.JSpinner spinnerCX;
+    private javax.swing.JSpinner spinnerCY;
+    private javax.swing.JSpinner spinnerFX;
+    private javax.swing.JSpinner spinnerFY;
+    private javax.swing.JSpinner spinnerHeigth;
+    private javax.swing.JSpinner spinnerWidth;
     // End of variables declaration//GEN-END:variables
     private CalibView calibUI  = new CalibView(this, rootPaneCheckingEnabled);
 
@@ -545,8 +665,8 @@ public class View extends javax.swing.JFrame {
         return menuItemOpen;
     }
 
-    public JMenuItem getMenuItemRedo() {
-        return menuItemRedo;
+    public JMenuItem getMenuItemLoadSettings() {
+        return menuItemLoadSettings;
     }
 
     public JMenuItem getMenuItemReset() {
@@ -561,8 +681,8 @@ public class View extends javax.swing.JFrame {
         return menuItemSaveAs;
     }
 
-    public JMenuItem getMenuItemUndo() {
-        return menuItemUndo;
+    public JMenuItem getMenuItemSaveSettings() {
+        return menuItemSaveSettings;
     }
 
     public JRadioButton getRadioButtonCircular() {
@@ -592,4 +712,32 @@ public class View extends javax.swing.JFrame {
     public void setDefaultImageLabel() {
         imageLabel.setIcon(new ImageIcon(getClass().getResource(Constants.DEFAULT_LABEL)));
     }
+
+	public javax.swing.JButton getButtonApplyChanging() {
+		return buttonApplyChanging;
+	}
+
+	public javax.swing.JSpinner getSpinnerCX() {
+		return spinnerCX;
+	}
+
+	public javax.swing.JSpinner getSpinnerCY() {
+		return spinnerCY;
+	}
+
+	public javax.swing.JSpinner getSpinnerFX() {
+		return spinnerFX;
+	}
+
+	public javax.swing.JSpinner getSpinnerFY() {
+		return spinnerFY;
+	}
+
+	public javax.swing.JSpinner getSpinnerHeigth() {
+		return spinnerHeigth;
+	}
+
+	public javax.swing.JSpinner getSpinnerWidth() {
+		return spinnerWidth;
+	}
 }
